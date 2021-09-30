@@ -1,76 +1,57 @@
 #include<stdlib.h> 
 #include<stdio.h> 
 #include<iostream>
+#include<bits/stdc++.h>
  
 using namespace std;
  
-void merge(int a[], int Firstindex, int m, int Lastindex); //merges the sub-arrays which are created while division
- 
-void mergeSort(int a[], int Firstindex, int Lastindex) 
-{ 
-    if (Firstindex < Lastindex) 
-    { 
+
+   class merge_sort
+   {
+  
+   public:
+   
+    void merge(int arr[], int l, int m, int r)
+    {
          
-        int m = Firstindex + (Lastindex - Firstindex)/2; 
-   
+         int left =l;
+         int right=m+1;
+         vector<int>temp;
          
-        mergeSort(a, Firstindex, m); 
-        mergeSort(a, m+1, Lastindex); 
-   
-        merge(a, Firstindex, m, Lastindex); 
-    } 
-}   
- 
-void merge(int a[], int Firstindex, int m, int Lastindex) 
-{ 
-    int x; 
-    int y;
-    int z;
-    int sub1 = m - Firstindex + 1; 
-    int sub2 =  Lastindex - m; 
-   
-     
-    int First[sub1];  //temp array
-     
-    int Second[sub2]; 
-   
-     
-    for (x = 0; x < sub1; x++) // copying data to temp arrays
-        First[x] = a[Firstindex + x]; 
-    for (y = 0; y < sub2; y++) 
-        Second[y] = a[m + 1+ y]; 
-   
-     
-    x = 0; 
-    y = 0; 
-    z = Firstindex; 
-    while (x < sub1 && y < sub2) 
-    { 
-        if (First[x] <= Second[y]) 
-        { 
-            a[z] = First[x]; 
-            x++; 
-        } 
-        else
-        { 
-            a[z] = Second[y]; 
-            y++; 
-        } 
-        z++; 
-    } 
-    while (x < sub1) 
-    { 
-        a[z] = First[x]; 
-        x++; 
-        z++; 
-    } 
-    while (y < sub2) 
-    { 
-        a[z] = Second[y]; 
-        y++; 
-        z++; 
-    } 
-} 
+         while(left<=m && right<=r){
+             if(arr[left]>arr[right])
+             {
+                 temp.push_back(arr[right]);
+                 right++;
+             }
+             else{
+                 temp.push_back(arr[left]);
+                 left++;
+             }
+         }
+         while(left<=m){
+             temp.push_back(arr[left]);
+                 left++;
+         }
+         while(right<=r){
+             temp.push_back(arr[right]);
+                 right++;
+         }
+         for(int i=l; i<=r; i++){
+             arr[i]=temp[i-l];
+         }
+    }
+    public:
+    void mergeSort(int arr[], int l, int r)
+    {
+        //code here
+        if(l == r) return;
+        int m=(l+r)>>1;
+            mergeSort(arr,l,m);
+            mergeSort(arr,m+1,r);
+            merge(arr,l,m,r);
+    }
+}; 
 int main() 
 { 
     int size;
